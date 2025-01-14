@@ -1,9 +1,14 @@
+import { useState } from "react";
+
+import { shoes, statistics } from "../constants";
 import Button from "../components/Button";
-import { arrowRight } from '../assets/icons';
-import { statistics } from '../constants';
+import ShoeCard from "../components/ShoeCard";
 import { bigShoe1 } from "../assets/images";
+import { arrowRight } from "../assets/icons";
 
 const Hero = () => {
+  const [bigShoeImg, setBigShoeImg] = useState(bigShoe1);
+
   return (
     <section
       id="home"
@@ -25,37 +30,45 @@ const Hero = () => {
           Discover stylish Nike arrivals, quality comfort, and innovation for
           your active life.
         </p>
-        <Button 
-          label="Shop now"
-          iconURL={arrowRight}
-        />
 
-        <div className=" flex justify-starts items-start flex-wrap w-full mt-20 gap-16">
-          {statistics.map((stat) => (
-            <div key={stat.label}>
+        <Button label="Shop now" iconURL={arrowRight} />
+
+        <div className="flex justify-start items-start flex-wrap w-full mt-20 gap-16">
+          {statistics.map((stat, index) => (
+            <div key={index}>
               <p className="text-4xl font-palanquin font-bold">{stat.value}</p>
-              <p className="leading-7 font-montserrat text-slate-gray">{stat.label}</p>
+              <p className="leading-7 font-montserrat text-slate-gray">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>
       </div>
 
       <div className="relative flex-1 flex justify-center items-center xl:min-h-screen max-xl:py-40 bg-primary bg-hero bg-cover bg-center">
-        <img 
-          src={bigShoe1}
-          alt="shoe collection"
+        <img
+          src={bigShoeImg}
+          alt="shoe colletion"
           width={610}
-          height={500}
+          height={502}
           className="object-contain relative z-10"
         />
 
-        <div>
-          
+        <div className="flex sm:gap-6 gap-4 absolute -bottom-[5%] sm:left-[10%] max-sm:px-6">
+          {shoes.map((image, index) => (
+            <div key={index}>
+              <ShoeCard
+                index={index}
+                imgURL={image}
+                changeBigShoeImage={(shoe) => setBigShoeImg(shoe)}
+                bigShoeImg={bigShoeImg}
+              />
+            </div>
+          ))}
         </div>
       </div>
-
     </section>
   );
-}
+};
 
-export default Hero
+export default Hero;
